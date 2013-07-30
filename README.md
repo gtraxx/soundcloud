@@ -13,7 +13,7 @@ Licence
 # Magix CMS, a CMS optimized for SEO
 # Copyright (C) 2011 -2013
 # Author and contributor:
-# Aurelien Gerits <aurelien[at]magix-cms[point]com>,<contact[at]magix-dev[point]be>
+# Aurelien Gerits aurelien[at]magix-cms[point]com, contact[at]magix-dev[point]be
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -39,9 +39,9 @@ Licence
 
 ### SMARTY/JAVASCRIPT ###
 Ajouter cette ligne dans javascript.phtml
-
+<pre>
 {script src="/min/?f=libjs/jimagine/plugins/jquery.jmSoundCloud.js" concat=$concat type="javascript"}
-
+</pre>
 // jmSoundCloud
 Ajouter dans global.js cette ligne :
 <pre>
