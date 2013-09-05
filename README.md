@@ -47,3 +47,37 @@ Ajouter dans global.js cette ligne :
 <pre>
 $('.soundcloud').jmSoundCloud();
 </pre>
+#### Ajouter un block pour l'affichage du widget (home)
+
+<pre>
+{widget_soundcloud_display type="home"}
+<ul class="unstyled">
+{if $collection_soundcloud != null}
+{foreach $collection_soundcloud as $key}
+    <li>
+        <h4>
+            {$key.name_sc_h}
+        </h4>
+        <a href="{$key.url_media_sc_h}" class="soundcloud">
+            {$key.name_sc_h}
+        </a>
+    </li>
+{/foreach}
+{/if}
+</ul>
+</pre>
+
+#### Ajouter un block pour l'affichage du widget (product)
+
+<pre>
+{widget_soundcloud_display type="product"}
+{if $collection_soundcloud != null}
+{foreach $collection_soundcloud as $key}
+    <p class="contener-sound">
+        <a itemprop="audio" class="soundcloud" href="{$key}">
+            {$product.name}
+        </a>
+    </p>
+{/foreach}
+{/if}
+</pre>
