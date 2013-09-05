@@ -122,14 +122,14 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
             }else{
                 if(isset($this->url_media_sc)){
                     parent::i_product_url($edit,$this->url_media_sc);
-                    $create->display('request/success_add.phtml',$plugin);
+                    $create->display('request/success_add.tpl',$plugin);
                 }elseif(isset($this->delete_sc)){
                     $this->remove_product();
                 }else{
-                    $template = $create->fetch('catalog.phtml',$plugin);
-                    $javascript = $create->fetch('js.phtml',$plugin);
+                    $template = $create->fetch('catalog.tpl',$plugin);
+                    $javascript = $create->fetch('js.tpl',$plugin);
                     $create->assign('plugin_display',array('template'=>$template,'javascript'=>$javascript));
-                    $create->display('catalog/product/edit.phtml');
+                    $create->display('catalog/product/edit.tpl');
                 }
             }
         }
@@ -141,7 +141,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
      */
     private function install_table($create){
         if(parent::c_show_table() == 0){
-            $create->db_install_table('db.sql', 'request/install.phtml');
+            $create->db_install_table('db.sql', 'request/install.tpl');
         }else{
             $magixfire = new magixcjquery_debug_magixfire();
             $magixfire->magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
@@ -165,12 +165,18 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
         }
     }
 
+    /**
+     * Suppression d'un lien
+     */
     private function remove(){
         if(isset($this->delete_sc)){
             parent::d_home_url($this->delete_sc);
         }
     }
 
+    /**
+     * Ajout d'un lien
+     */
     private function add(){
         if(isset($this->name_sc_h) AND isset($this->url_media_sc_h)){
             parent::i_home_url($this->name_sc_h,$this->url_media_sc_h);
@@ -209,7 +215,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
                     }elseif(isset($this->order_url)){
                         $this->update_order_url();
                     }else{
-                        $create->display('list.phtml');
+                        $create->display('list.tpl');
                     }
                 }elseif($this->action == 'add'){
                     $this->add($create);
@@ -219,7 +225,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
                     }
                 }
             }elseif(isset($this->tab)){
-                $create->display('about.phtml');
+                $create->display('about.tpl');
             }
         }
     }

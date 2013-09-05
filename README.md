@@ -38,7 +38,7 @@ Licence
  * Il ne reste que la configuration du plugin pour correspondre avec vos données.
 
 ### SMARTY/JAVASCRIPT ###
-Ajouter cette ligne dans javascript.phtml
+Ajouter cette ligne dans javascript.tpl
 <pre>
 {script src="/min/?f=libjs/jimagine/plugins/jquery.jmSoundCloud.js" concat=$concat type="javascript"}
 </pre>
