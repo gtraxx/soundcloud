@@ -40,7 +40,8 @@
  * Time: 15:53
  * License: Dual licensed under the MIT or GPL Version
  */
-var MC_plugins_soundcloud = (function($,undefined){
+var MC_plugins_soundcloud = (function($, window, document, undefined){
+
     //Fonction Private
     function html_product_url(collection,data,contener){
         var tbl = $(document.createElement('table')),
@@ -368,7 +369,7 @@ var MC_plugins_soundcloud = (function($,undefined){
         $(document).on('click','.delete-sc',function(event){
             switch(id){
                 case 'list-soundcloud':
-                    var request_url = '/'+collection[0]+'/catalog.php?section=product&getlang='+collection[2]+'&action=edit&edit='+collection[3]+'&plugin=soundcloud&json=list'
+                    var request_url = '/'+collection[0]+'/catalog.php?section=product&getlang='+collection[2]+'&action=edit&edit='+collection[3]+'&plugin=soundcloud'
                     break;
                 case 'list-soundcloud-home':
                     var request_url = '/'+collection[0]+'/plugins.php?name=soundcloud&action=remove';
@@ -431,4 +432,4 @@ var MC_plugins_soundcloud = (function($,undefined){
             }
         }
     };
-})(jQuery);
+})(jQuery, window, document);

@@ -68,7 +68,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
             $this->edit = magixcjquery_filter_isVar::isPostNumeric($_GET['edit']);
         }
         if(magixcjquery_filter_request::isPost('delete_sc')){
-            $this->delete_sc = (integer) magixcjquery_filter_isVar::isPostNumeric($_POST['delete_sc']);
+            $this->delete_sc = magixcjquery_filter_isVar::isPostNumeric($_POST['delete_sc']);
         }
         if(magixcjquery_filter_request::isPost('name_sc_h')){
             $this->name_sc_h = magixcjquery_form_helpersforms::inputClean($_POST['name_sc_h']);
@@ -117,6 +117,8 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
                                 ',"url_media_sc":'.json_encode($key['url_media_sc']).'}';
                         }
                         $json->encode($json_data,array('[',']'));
+                    }else{
+                        print '{}';
                     }
                 }
             }else{
@@ -135,6 +137,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
         }
     }
 
+    // Home
     /**
      * @access private
      * Installation des tables mysql du plugin
@@ -144,7 +147,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
             $create->db_install_table('db.sql', 'request/install.tpl');
         }else{
             $magixfire = new magixcjquery_debug_magixfire();
-            $magixfire->magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
+            //$magixfire->magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
             return true;
         }
     }
@@ -162,6 +165,8 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
                 '}';
             }
             $json->encode($json_data,array('[',']'));
+        }else{
+            print '{}';
         }
     }
 
@@ -258,7 +263,7 @@ class database_plugins_soundcloud{
         $table = 'mc_soundcloud';
         return magixglobal_model_db::layerDB()->showTable($table);
     }
-
+    // PRODUCT
     /**
      * @param $edit
      * @return array
@@ -292,6 +297,7 @@ class database_plugins_soundcloud{
      * @access protected
      * @param integer $edit
      */
+
     protected function d_product_url($edit){
         $sql = 'DELETE FROM mc_soundcloud
         WHERE idsc = :edit';
@@ -299,7 +305,7 @@ class database_plugins_soundcloud{
             ':edit'	=>	$edit
         ));
     }
-
+    // HOME
     /**
      * @return array
      */

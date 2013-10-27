@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS `mc_soundcloud` (
-  `idsc` INT(7) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `idcatalog` INT(6) UNSIGNED NOT NULL ,
-  `url_media_sc` VARCHAR(125) NOT NULL ,
+  `idsc` int(7) unsigned NOT NULL AUTO_INCREMENT,
+  `idcatalog` int(6) unsigned NOT NULL,
+  `url_media_sc` varchar(125) NOT NULL,
+  `duration` time NOT NULL DEFAULT '00:00:00',
   PRIMARY KEY (`idsc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
