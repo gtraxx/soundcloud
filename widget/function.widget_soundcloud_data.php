@@ -38,12 +38,13 @@
  * Copyright: MAGIX CMS
  * Date: 30/07/13
  * Time: 23:25
+ * Update : 13/01/2016
  * License: Dual licensed under the MIT or GPL Version
  * Example :
  *
  * ##### Home #####
  *
- * {widget_soundcloud_display type="home"}
+ * {widget_soundcloud_data type="home"}
     <ul class="unstyled">
     {if $collection_soundcloud != null}
     {foreach $collection_soundcloud as $key}
@@ -61,7 +62,7 @@
  *
  * ##### product ######
  *
- * {widget_soundcloud_display type="product"}
+ * {widget_soundcloud_data type="product"}
     {if $collection_soundcloud != null}
     {foreach $collection_soundcloud as $key}
         <p class="contener-sound">
@@ -73,7 +74,7 @@
     {/if}
  */
 
-function smarty_function_widget_soundcloud_display($params, $template){
+function smarty_function_widget_soundcloud_data($params, $template){
     $collection = new database_plugins_soundcloud();
     $type = $params['type'];
     switch($type){
