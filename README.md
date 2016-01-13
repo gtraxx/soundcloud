@@ -52,7 +52,7 @@ $('.soundcloud').jmSoundCloud();
 #### Ajouter un block pour l'affichage du widget (home)
 
 ```smarty
-{widget_soundcloud_display type="home"}
+{widget_soundcloud_data type="home"}
 <ul class="unstyled">
 {if $collection_soundcloud != null}
 {foreach $collection_soundcloud as $key}
@@ -72,7 +72,7 @@ $('.soundcloud').jmSoundCloud();
 #### Ajouter un block pour l'affichage du widget (product)
 
 ```smarty
-{widget_soundcloud_display type="product"}
+{widget_soundcloud_data type="product"}
 {if $collection_soundcloud != null}
 {foreach $collection_soundcloud as $key}
     <p class="contener-sound">
