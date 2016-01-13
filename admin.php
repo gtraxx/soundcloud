@@ -43,15 +43,20 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
     /**
      * Les variables globales
      */
+    protected $header, $template, $message,$json;
+    public static $notify = array('plugin' => 'true');
     public $action,$tab,$getlang;
     /**
      * @var url_media
      */
-    public $url_media_sc,$url_media_sc_h,$name_sc_h,$delete_sc,$order_url,$edit;
+    public $url_media_sc,$url_media_sc_h,$name_sc_h,$duration,$delete_sc,$order_url,$edit;
     /**
      * Construct class
      */
     public function __construct(){
+        if (class_exists('backend_model_message')) {
+            $this->message = new backend_model_message();
+        }
         if(magixcjquery_filter_request::isGet('action')){
             $this->action = magixcjquery_form_helpersforms::inputClean($_GET['action']);
         }
@@ -76,9 +81,15 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
         if(magixcjquery_filter_request::isPost('url_media_sc_h')){
             $this->url_media_sc_h = magixcjquery_form_helpersforms::inputClean($_POST['url_media_sc_h']);
         }
+        if(magixcjquery_filter_request::isPost('duration')){
+            $this->duration = magixcjquery_form_helpersforms::inputClean($_POST['duration']);
+        }
         if(magixcjquery_filter_request::isPost('order_url')){
             $this->order_url = magixcjquery_form_helpersforms::arrayClean($_POST['order_url']);
         }
+        $this->header = new magixglobal_model_header();
+        $this->template = new backend_controller_plugins();
+        $this->json = new magixglobal_model_json();
     }
 
     // CATALOG PRODUCT
@@ -99,39 +110,34 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
      * @param $edit
      */
     public function catalog_product($plugin,$getlang,$edit){
-        $create = new backend_controller_plugins();
-        $header= new magixglobal_model_header();
-        $json = new magixglobal_model_json();
         if(isset($this->edit)){
             if(magixcjquery_filter_request::isGet('json')){
                 if($_GET['json'] === 'list'){
-                    $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                    $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-                    $header->pragma();
-                    $header->cache_control("nocache");
-                    $header->getStatus('200');
-                    $header->json_header("UTF-8");
+                    $this->header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                    $this->header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                    $this->header->pragma();
+                    $this->header->cache_control("nocache");
+                    $this->header->getStatus('200');
+                    $this->header->json_header("UTF-8");
                     if(parent::s_product_url($edit) != null){
                         foreach (parent::s_product_url($edit) as $key){
                             $json_data[]= '{"idsc":'.json_encode($key['idsc']).
-                                ',"url_media_sc":'.json_encode($key['url_media_sc']).'}';
+                                ',"url_media_sc":'.json_encode($key['url_media_sc']).
+                                ',"duration":'.json_encode($key['duration']).'}';
                         }
-                        $json->encode($json_data,array('[',']'));
+                        $this->json->encode($json_data,array('[',']'));
                     }else{
                         print '{}';
                     }
                 }
             }else{
                 if(isset($this->url_media_sc)){
-                    parent::i_product_url($edit,$this->url_media_sc);
-                    $create->display('request/success_add.tpl',$plugin);
+                    parent::i_product_url($edit,$this->url_media_sc,$this->duration);
+                    $this->message->getNotify('add',self::$notify);
                 }elseif(isset($this->delete_sc)){
                     $this->remove_product();
                 }else{
-                    $template = $create->fetch('catalog.tpl',$plugin);
-                    $javascript = $create->fetch('js.tpl',$plugin);
-                    $create->assign('plugin_display',array('template'=>$template,'javascript'=>$javascript));
-                    $create->display('catalog/product/edit.tpl');
+                    $this->template->display('catalog.tpl');
                 }
             }
         }
@@ -146,7 +152,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
         if(parent::c_show_table() == 0){
             $create->db_install_table('db.sql', 'request/install.tpl');
         }else{
-            $magixfire = new magixcjquery_debug_magixfire();
+            //$magixfire = new magixcjquery_debug_magixfire();
             //$magixfire->magixFireInfo('Les tables mysql sont installés', 'Statut des tables mysql du plugin');
             return true;
         }
@@ -156,7 +162,6 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
      * Retourne la liste des URL en page d'accueil au format JSON
      */
     private function json_list_soundcloud(){
-        $json = new magixglobal_model_json();
         if(parent::s_home_url() != null){
             foreach (parent::s_home_url() as $key){
                 $json_data[]= '{"idsc_h":'.json_encode($key['idsc_h']).
@@ -164,7 +169,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
                 ',"url_media_sc_h":'.json_encode($key['url_media_sc_h']).
                 '}';
             }
-            $json->encode($json_data,array('[',']'));
+            $this->json->encode($json_data,array('[',']'));
         }else{
             print '{}';
         }
@@ -204,33 +209,32 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
      * Execution du plugin
      */
     public function run(){
-        $header= new magixglobal_model_header();
-        $create = new backend_controller_plugins();
-        if(self::install_table($create) == true){
+        if(self::install_table($this->template) == true){
             if(isset($this->action)){
                 if($this->action == 'list'){
                     if(magixcjquery_filter_request::isGet('json_list_soundcloud')){
-                        $header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
-                        $header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
-                        $header->pragma();
-                        $header->cache_control("nocache");
-                        $header->getStatus('200');
-                        $header->json_header("UTF-8");
-                        $this->json_list_soundcloud();
+                        $this->header->head_expires("Mon, 26 Jul 1997 05:00:00 GMT");
+                        $this->header->head_last_modified(gmdate( "D, d M Y H:i:s" ) . "GMT");
+                        $this->header->pragma();
+                        $this->header->cache_control("nocache");
+                        $this->header->getStatus('200');
+                        $this->header->json_header("UTF-8");
+                        $this->this->json_list_soundcloud();
                     }elseif(isset($this->order_url)){
                         $this->update_order_url();
                     }else{
-                        $create->display('list.tpl');
+                        $this->template->display('list.tpl');
                     }
                 }elseif($this->action == 'add'){
-                    $this->add($create);
+                    $this->add();
+                    $this->message->getNotify('add',self::$notify);
                 }elseif($this->action == 'remove'){
                     if(isset($this->delete_sc)){
                         $this->remove();
                     }
                 }
             }elseif(isset($this->tab)){
-                $create->display('about.tpl');
+                $this->template->display('about.tpl');
             }
         }
     }
@@ -247,7 +251,7 @@ class plugins_soundcloud_admin extends database_plugins_soundcloud{
             ),
             'icon'=> array(
                 'type'=>'font',
-                'name'=>'icon-cloud'
+                'name'=>'fa fa-soundcloud'
             )
         );
     }
@@ -283,13 +287,14 @@ class database_plugins_soundcloud{
      * @param $idcatalog
      * @param $url_media_sc
      */
-    protected function i_product_url($idcatalog,$url_media_sc){
-        $sql = 'INSERT INTO mc_soundcloud (idcatalog,url_media_sc)
-		VALUE(:idcatalog,:url_media_sc)';
+    protected function i_product_url($idcatalog,$url_media_sc,$duration){
+        $sql = 'INSERT INTO mc_soundcloud (idcatalog,url_media_sc,duration)
+		VALUE(:idcatalog,:url_media_sc,:duration)';
         magixglobal_model_db::layerDB()->insert($sql,
             array(
                 ':idcatalog'	=>	$idcatalog,
-                ':url_media_sc' =>  $url_media_sc
+                ':url_media_sc' =>  $url_media_sc,
+                ':duration' =>  $duration
             )
         );
     }

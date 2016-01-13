@@ -55,14 +55,15 @@ var MC_plugins_soundcloud = (function($, window, document, undefined){
                         .append(
                             $(document.createElement("th")).append(
                                 $(document.createElement("span"))
-                                .addClass("icon-key")
+                                .addClass("fa fa-key")
                             ),
-                            $(document.createElement("th")).append("URL")
+                            $(document.createElement("th")).append("URL"),
+                            $(document.createElement("th")).append("DURATION")
                             ,
                             $(document.createElement("th"))
                             .append(
                                 $(document.createElement("span"))
-                                    .addClass("icon-trash")
+                                    .addClass("fa fa-trash-o")
                             )
                         )
                     ),
@@ -81,14 +82,15 @@ var MC_plugins_soundcloud = (function($, window, document, undefined){
                         .attr("data-delete", item.idsc)
                         .attr("title", Globalize.localize( "remove", collection[1] )+": "+item.url_media_sc)
                         .append(
-                            $(document.createElement("span")).addClass("icon-trash")
+                            $(document.createElement("span")).addClass("fa fa-trash-o")
                         )
                 );
                 tbody.append(
                     $(document.createElement("tr"))
                         .append(
                             $(document.createElement("td")).append(item.idsc),
-                            $(document.createElement("td")).append(item.url_media_sc)
+                            $(document.createElement("td")).append(item.url_media_sc),
+                            $(document.createElement("td")).append(item.duration)
                             ,
                             remove
                         )
@@ -99,13 +101,16 @@ var MC_plugins_soundcloud = (function($, window, document, undefined){
                 $(document.createElement("tr"))
                     .append(
                         $(document.createElement("td")).append(
-                            $(document.createElement("span")).addClass("icon-minus")
+                            $(document.createElement("span")).addClass("fa fa-minus")
                         ),
                         $(document.createElement("td")).append(
-                            $(document.createElement("span")).addClass("icon-minus")
+                            $(document.createElement("span")).addClass("fa fa-minus")
                         ),
                         $(document.createElement("td")).append(
-                            $(document.createElement("span")).addClass("icon-minus")
+                            $(document.createElement("span")).addClass("fa fa-minus")
+                        ),
+                        $(document.createElement("td")).append(
+                            $(document.createElement("span")).addClass("fa fa-minus")
                         )
                     )
             )
@@ -217,7 +222,7 @@ var MC_plugins_soundcloud = (function($, window, document, undefined){
                             .append(
                                 $(document.createElement("th")).append(
                                     $(document.createElement("span"))
-                                        .addClass("icon-key")
+                                        .addClass("fa fa-key")
                                 ),
                                 $(document.createElement("th")).append(Globalize.localize( "heading", collection[1] )),
                                 $(document.createElement("th")).append("URL")
@@ -225,7 +230,7 @@ var MC_plugins_soundcloud = (function($, window, document, undefined){
                                 $(document.createElement("th"))
                                     .append(
                                         $(document.createElement("span"))
-                                            .addClass("icon-trash")
+                                            .addClass("fa fa-trash-o")
                                     )
                             )
                     ),
@@ -244,7 +249,7 @@ var MC_plugins_soundcloud = (function($, window, document, undefined){
                         .attr("data-delete", item.idsc_h)
                         .attr("title", Globalize.localize( "remove", collection[1] )+": "+item.url_media_sc_h)
                         .append(
-                            $(document.createElement("span")).addClass("icon-trash")
+                            $(document.createElement("span")).addClass("fa fa-trash-o")
                         )
                 );
                 tbody.append(
@@ -285,16 +290,16 @@ var MC_plugins_soundcloud = (function($, window, document, undefined){
                 $(document.createElement("tr"))
                     .append(
                         $(document.createElement("td")).append(
-                            $(document.createElement("span")).addClass("icon-minus")
+                            $(document.createElement("span")).addClass("fa fa-minus")
                         ),
                         $(document.createElement("td")).append(
-                            $(document.createElement("span")).addClass("icon-minus")
+                            $(document.createElement("span")).addClass("fa fa-minus")
                         ),
                         $(document.createElement("td")).append(
-                            $(document.createElement("span")).addClass("icon-minus")
+                            $(document.createElement("span")).addClass("fa fa-minus")
                         ),
                         $(document.createElement("td")).append(
-                            $(document.createElement("span")).addClass("icon-minus")
+                            $(document.createElement("span")).addClass("fa fa-minus")
                         )
                     )
             )

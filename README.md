@@ -1,7 +1,9 @@
 soundcloud
 ==========
 
-Plugin soundcloud for magix cms
+Plugin soundcloud for [magixcms](http://www.magix-cms.com)
+                      
+![Plugin Soundcloud Magix CMS](https://cloud.githubusercontent.com/assets/356674/12290737/ac820b96-b9e3-11e5-9451-da2b59571d76.png "Plugin Soundcloud pour Magix CMS")
 
 Licence
 ------------
@@ -11,7 +13,7 @@ Licence
 #
 # This file is a plugin of Magix CMS.
 # Magix CMS, a CMS optimized for SEO
-# Copyright (C) 2011 -2013
+# Copyright (C) 2011 - 2016
 # Author and contributor:
 # Aurelien Gerits aurelien[at]magix-cms[point]com, contact[at]magix-dev[point]be
 # This program is free software: you can redistribute it and/or modify
